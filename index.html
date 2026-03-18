@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CONSIA AVATAR REAL</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #000;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+}
+
+/* VIDEO FULLSCREEN */
+#avatar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+}
+
+/* HUD ESTILO JARVIS */
+#hud {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  color: #00ffff;
+  font-size: 14px;
+  letter-spacing: 2px;
+  opacity: 0.8;
+}
+
+/* BOTÓN ACTIVAR VOZ */
+#voiceBtn {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,255,255,0.15);
+  border: 1px solid #00ffff;
+  color: #00ffff;
+  padding: 12px 20px;
+  border-radius: 30px;
+  font-size: 14px;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+}
+
+/* EFECTO GLOW */
+.glow {
+  text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- VIDEO AVATAR -->
+<video id="avatar" autoplay muted loop playsinline>
+  <source src="https://raw.githubusercontent.com/Martinvairo87/consia-avatar/main/avatar.mp4" type="video/mp4">
+</video>
+
+<!-- HUD -->
+<div id="hud" class="glow">
+CONSIA SYSTEM<br>
+AVATAR REALTIME ACTIVE<br>
+STATUS: ONLINE
+</div>
+
+<!-- BOTÓN VOZ -->
+<button id="voiceBtn">ACTIVAR VOZ</button>
+
+<script>
+
+const video = document.getElementById("avatar");
+const btn = document.getElementById("voiceBtn");
+
+/* AUTOPLAY FORZADO iOS */
+video.play().catch(() => {
+  document.body.addEventListener("click", () => video.play());
+});
+
+/* LOOP PERFECTO */
+video.onended = () => video.play();
+
+/* VOZ NATIVA (SIN API EXTERNA) */
+btn.addEventListener("click", () => {
+
+  const msg = new SpeechSynthesisUtterance("CONSIA activo. Sistema listo.");
+  msg.lang = "es-AR";
+  msg.rate = 1;
+
+  speechSynthesis.speak(msg);
+
+});
+
+/* ACTIVAR VOZ AUTOMÁTICA AL TOCAR */
+document.body.addEventListener("click", () => {
+  const msg = new SpeechSynthesisUtterance("Bienvenido a CONSIA");
+  msg.lang = "es-AR";
+  speechSynthesis.speak(msg);
+}, { once: true });
+
+</script>
+
+</body>
+</html>
